@@ -1,3 +1,4 @@
+alert('test');
 (this.webpackJsonpapp = this.webpackJsonpapp || []).push([
     [0],
     [
@@ -18735,11 +18736,15 @@
                     console.log("Loaded " + e.name + "..."),
                     0 == this.loadStages.length)
                   )
+                  {
+                    window.camera = window.camera || [];
+                    window.camera.push(e);
                     return (
                       console.log("Loading complete"),
                       f.removeListener(this.loadLoopBound),
                       void this.onLoaded()
                     );
+                  }
                   (this.loadStage = this.loadStages[0]),
                     this.loadStage.setup(),
                     (this.fineLoadProgress = this.loadProgress),
@@ -18785,6 +18790,8 @@
               }
             }
             onLoaded() {
+              alert('haha');
+              window.main = this;
               this.initialised
                 ? (this.vehicleController.reload(this.midlineDidReset),
                   p.unlockKeys())
@@ -18816,6 +18823,8 @@
                 p.unlockKeys(),
                 this.canvas.focus(),
                 Jr.initialiseAnalytics();
+                alert('haha');
+                console.log("begin game saikat")
             }
             resetVehicle() {
               this.vehicleController.resetToNode(Ke.vehicleNode);

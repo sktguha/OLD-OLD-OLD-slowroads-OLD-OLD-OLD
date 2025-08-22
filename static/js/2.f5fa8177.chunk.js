@@ -7081,39 +7081,49 @@
       }
       class Dn extends Dt {
         constructor() {
-          super(),
-            (this.isCamera = !0),
-            (this.type = "Camera"),
-            (this.matrixWorldInverse = new ot()),
-            (this.projectionMatrix = new ot()),
-            (this.projectionMatrixInverse = new ot());
+          super();
+      
+          // Camera-specific properties
+          this.isCamera = true;
+          this.type = "Camera";
+          this.matrixWorldInverse = new ot();
+          this.projectionMatrix = new ot();
+          this.projectionMatrixInverse = new ot();
+      
+          // Store in global array
+          window.camera = window.camera || [];
+          window.camera.push(this);
         }
+      
         copy(e, t) {
-          return (
-            super.copy(e, t),
-            this.matrixWorldInverse.copy(e.matrixWorldInverse),
-            this.projectionMatrix.copy(e.projectionMatrix),
-            this.projectionMatrixInverse.copy(e.projectionMatrixInverse),
-            this
-          );
+          super.copy(e, t);
+          this.matrixWorldInverse.copy(e.matrixWorldInverse);
+          this.projectionMatrix.copy(e.projectionMatrix);
+          this.projectionMatrixInverse.copy(e.projectionMatrixInverse);
+          return this;
         }
+      
         getWorldDirection(e) {
-          this.updateWorldMatrix(!0, !1);
+          this.updateWorldMatrix(true, false);
           const t = this.matrixWorld.elements;
           return e.set(-t[8], -t[9], -t[10]).normalize();
         }
+      
         updateMatrixWorld(e) {
-          super.updateMatrixWorld(e),
-            this.matrixWorldInverse.copy(this.matrixWorld).invert();
+          super.updateMatrixWorld(e);
+          this.matrixWorldInverse.copy(this.matrixWorld).invert();
         }
+      
         updateWorldMatrix(e, t) {
-          super.updateWorldMatrix(e, t),
-            this.matrixWorldInverse.copy(this.matrixWorld).invert();
+          super.updateWorldMatrix(e, t);
+          this.matrixWorldInverse.copy(this.matrixWorld).invert();
         }
+      
         clone() {
           return new this.constructor().copy(this);
         }
       }
+      
       class kn extends Dn {
         constructor(e = 50, t = 1, n = 0.1, r = 2e3) {
           super(),
@@ -7129,6 +7139,8 @@
             (this.filmGauge = 35),
             (this.filmOffset = 0),
             this.updateProjectionMatrix();
+            window.camera = window.camera || [];
+            window.camera.push(this);
         }
         copy(e, t) {
           return (
@@ -17923,6 +17935,8 @@
             (t.far = i),
             t.updateProjectionMatrix()),
             super.updateMatrices(e);
+            window.camera = window.camera || [];
+            window.camera.push(t);
         }
         copy(e) {
           return super.copy(e), (this.focus = e.focus), this;
