@@ -1,4 +1,4 @@
-alert('test');
+// alert('test');
 (this.webpackJsonpapp = this.webpackJsonpapp || []).push([
     [0],
     [
@@ -15205,6 +15205,7 @@ alert('test');
               this.envLayer.add(this.nearGrid.container);
           }
           _nearGridLoader() {
+            window.gridLoader = this;
             return (
               (this.loadProg = this.nearGrid.loader()),
               1 == this.loadProg &&
@@ -18731,6 +18732,8 @@ alert('test');
                 );
                 if (this.fineLoadProgress >= 1) {
                   let e = this.loadStages.shift();
+                  console.log(this.loadStages);
+                  window.mainLoadStages = this.loadStages;
                   if (
                     ((this.loadProgress += e.portion),
                     console.log("Loaded " + e.name + "..."),

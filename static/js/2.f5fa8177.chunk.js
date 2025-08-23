@@ -7279,6 +7279,7 @@
             this.add(l);
         }
         update(e, t) {
+          alert("lol")
           null === this.parent && this.updateMatrixWorld();
           const n = this.renderTarget,
             [r, i, a, s, o, l] = this.children,
