@@ -18795,6 +18795,7 @@
             onLoaded() {
               alert('haha');
               window.main = this;
+              // working main yea this only 
               this.initialised
                 ? (this.vehicleController.reload(this.midlineDidReset),
                   p.unlockKeys())
