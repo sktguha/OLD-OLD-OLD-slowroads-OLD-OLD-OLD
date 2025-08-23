@@ -237,6 +237,71 @@
   </script>
   <script src="./static/js/2.f5fa8177.chunk.js"></script>
   <script src="./static/js/main.e7a33c55.chunk.js"></script>
+  <script>
+    window.changeBg = function () {
+      // --- Configuration ---
+      const hdrUrl = 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/pisztyk_1k.hdr';
+      const threeJsUrl = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+      const rgbeLoaderUrl = 'https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/loaders/RGBELoader.js';
+
+      // Helper to load scripts
+      function loadScript(url, callback) {
+        console.log(`Loading script: ${url}`);
+        const script = document.createElement('script');
+        script.src = url;
+        script.onload = callback;
+        script.onerror = () => console.error(`Failed to load script: ${url}`);
+        document.head.appendChild(script);
+      }
+
+      // --- Final Step: The actual logic to set the background ---
+      function setHdrBackground() {
+        console.log('All dependencies are loaded. Proceeding to set background...');
+
+        const targetScene = window.main && window.main.scene;
+
+        if (!targetScene) {
+          console.error('Error: window.main.scene was not found. Cannot set background.');
+          return;
+        }
+
+
+
+        const loader = new THREE.RGBELoader();
+        loader.load(hdrUrl,
+          (texture) => {
+            texture.mapping = THREE.EquirectangularReflectionMapping;
+            targetScene.background = texture;
+            targetScene.environment = texture; // Important for reflective materials
+            console.log('%cSuccessfully set HDR background on window.main.scene!', 'color: green; font-weight: bold;');
+          },
+          undefined,
+          (error) => {
+            console.error('An error occurred while loading the HDR file.', error);
+          }
+        );
+      }
+
+      // --- Step 2: Check for RGBELoader and load if necessary ---
+      function checkAndLoadLoader() {
+        if (THREE.RGBELoader) {
+          setHdrBackground();
+        } else {
+          loadScript(rgbeLoaderUrl, setHdrBackground);
+        }
+      }
+
+      // --- Step 1: Check for Three.js and load if necessary ---
+      if (typeof THREE !== 'undefined') {
+        console.log('Three.js is already available.');
+        checkAndLoadLoader();
+      } else {
+        console.log('Three.js not found on page.');
+        loadScript(threeJsUrl, checkAndLoadLoader);
+      }
+
+    }
+  </script>
 </body>
 
 </html>
