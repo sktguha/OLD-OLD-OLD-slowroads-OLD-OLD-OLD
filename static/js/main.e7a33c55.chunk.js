@@ -18827,7 +18827,7 @@
                 p.unlockKeys(),
                 this.canvas.focus(),
                 Jr.initialiseAnalytics();
-                alert('haha');
+                // alert('haha');
                 console.log("begin game saikat")
             }
             resetVehicle() {
